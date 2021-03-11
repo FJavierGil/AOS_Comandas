@@ -1,0 +1,73 @@
+###
+# CGET 200
+GET http://127.0.0.1:80/api/v1/comanda
+Accept: application/json
+
+###
+# GET ERROR 422 (validación parámetros)
+GET http://127.0.0.1:80/api/v1/comanda/abcd
+Accept: application/json
+
+###
+# GET 200
+GET http://127.0.0.1:80/api/v1/comanda/1234
+Accept: application/json
+
+###
+# GET 200 (dinámico)
+GET http://127.0.0.1:80/api/v1/comanda/1234?__dynamic=true
+Accept: application/json
+
+###
+# CGET 200 (dinámico)
+GET http://127.0.0.1:80/api/v1/comanda?__dynamic=true
+Accept: application/json
+
+###
+# POST 201
+POST http://127.0.0.1:80/api/v1/comanda
+Content-Type: application/json
+
+{
+    "ref": 7777,
+    "unidades": 77
+}
+
+###
+# POST 201 (dinámico)
+POST http://127.0.0.1:80/api/v1/comanda
+Prefer: dynamic=true
+Content-Type: application/json
+
+{
+    "ref": 9793,
+    "unidades": 327
+}
+
+###
+# CGET 404
+GET http://127.0.0.1:80/api/v1/comanda
+Prefer: code=404
+Accept: application/problem+json
+
+###
+# POST 422
+POST http://127.0.0.1:80/api/v1/comanda
+Prefer: code=422
+Content-Type: application/json
+
+{
+    "Xref": 7777,
+    "unidades": 77
+}
+
+###
+# COPTIONS 404
+OPTIONS http://127.0.0.1:80/api/v1/comanda
+Content-Type: application/json
+
+###
+# COPTIONS 404
+OPTIONS http://127.0.0.1:80/api/v1/comanda/5
+Content-Type: application/json
+

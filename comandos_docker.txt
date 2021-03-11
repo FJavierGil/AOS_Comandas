@@ -1,0 +1,19 @@
+SWAGGER-UI
+=============================================================================
+url: https://swagger.io/docs/open-source-tools/swagger-ui/usage/installation/#docker
+
+PS> docker run -p 8000:8080 --rm --name comandas_ui -e SWAGGER_JSON=/aos/comandas.yaml -v C:\xampp\htdocs\AOS\Comandas\openapi:/aos swaggerapi/swagger-ui
+
+
+STOPLIGHT-PRISM
+=============================================================================
+url: https://meta.stoplight.io/docs/prism/README.md
+
+PS> docker run --init --rm -it -p 80:4010 --name comandas_mock -v C:\xampp\htdocs\AOS\Comandas\openapi:/aos stoplight/prism:4 mock --cors -h 0.0.0.0 "/aos/comandas.yaml"
+
+
+SPECTRAL - lint JSON/YAML documents from files or URLs
+=============================================================================
+url: https://meta.stoplight.io/docs/spectral/CHANGELOG.md
+
+PS> docker run --rm -it -v ./openapi:/tmp stoplight/spectral lint -v "/tmp/comandos.yaml"

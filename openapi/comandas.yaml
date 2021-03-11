@@ -1,0 +1,448 @@
+openapi: "3.0.3"
+info:
+  title: "🍽️API Comanda: Ejemplo de especificación"
+  version: "0.0.6"
+  description: '[UPM] AOS: API para la gestión de Comandas'
+  license:
+    name: MIT
+    url: 'https://opensource.org/licenses/MIT'
+  contact:
+    name: Máster Universitario en Ingeniería Web
+    url: 'http://miw.etsisi.upm.es/'
+    email: miw.etsisi@upm.es
+servers:
+  - url: '{schema}://{server}:{port}/{basePath}'
+    description: Servidor local
+    variables:
+      schema:
+        description: Esquema
+        default: http
+        enum:
+          - http
+          - https
+      server:
+        description: Nombre del servidor
+        default: 127.0.0.1
+      port:
+        description: Número de puerto
+        default: '80'
+      basePath:
+        description: Ruta base
+        default: api/v1
+tags:
+  - name: '👆 Comanda'
+    description: Comanda de un usuario registrado
+  - name: '🧾 Factura'
+    description: Factura con el conjunto de comandas de un usuario
+paths:
+  /comanda:
+    get:
+      tags:
+        - '👆 Comanda'
+      summary: Obtiene todas las comandas de un usuario
+      operationId: upm_aos_comanda_cget
+      responses:
+        200:
+          description: Array de comandas
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comandas:
+                    description: array de comandas
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Comanda'
+              examples:
+                comandasExamples:
+                  $ref: '#/components/examples/comandas'
+        404:
+          $ref: '#/components/responses/Response_404'
+    post:
+      tags:
+        - '👆 Comanda'
+      summary: Crea una nueva comanda
+      description: Genera una nueva comanda para un usuario previamente registrado
+      operationId: upm_aos_comanda_post
+      requestBody:
+        $ref: '#/components/requestBodies/comandaRB'
+      responses:
+        201:
+          description: comanda creada
+          headers:
+            Location:
+              $ref: '#/components/headers/Location'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comanda'
+        422:
+          $ref: '#/components/responses/Response_422'
+    options:
+      tags:
+        - '👆 Comanda'
+      summary: Proporciona la lista de los métodos HTTP soportados.
+      description: Devuelve una cabecera `Allow` con la lista de métodos HTTP soportados (separados por comas).
+      operationId: upm_aos_comanda_coptions
+      responses:
+        '204':
+          description: 'cabecera `Allow` &lt;El cuerpo de la respuesta está vacío&gt;'
+          headers:
+            Allow:
+              $ref: '#/components/headers/Allow'
+
+  '/comanda/{comandaId}':
+    parameters:
+      - $ref: '#/components/parameters/comandaId'
+    get:
+      tags:
+        - '👆 Comanda'
+      summary: Recupera una comanda específica identificada por su ID.
+      description: Devuelve la comanda identificada por `comandaId`.
+      operationId: upm_aos_comanda_get
+      responses:
+        '200':
+          description: Comanda
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comanda'
+        '404':
+          $ref: '#/components/responses/Response_404'
+    delete:
+      tags:
+        - '👆 Comanda'
+      summary: Elimina una comanda.
+      description: Elimina la comanda identificada por `comandaId`.
+      operationId: upm_aos_comanda_delete
+      responses:
+        '204':
+          description: Comanda eliminada &lt;Cuerpo de la respuesta vacío&gt;
+        '404':
+          $ref: '#/components/responses/Response_404'
+    options:
+      tags:
+        - '👆 Comanda'
+      summary: Proporciona la lista de los métodos HTTP soportados.
+      description: Devuelve una cabecera `Allow` con la lista de métodos HTTP soportados (separados por comas).
+      operationId: upm_aos_comanda_options
+      responses:
+        '204':
+          description: 'cabecera `Allow` &lt;El cuerpo de la respuesta está vacío&gt;'
+          headers:
+            Allow:
+              $ref: '#/components/headers/Allow'
+    put:
+      tags:
+        - '👆 Comanda'
+      summary: Modifica la comanda.
+      description: Actualiza la comanda identificada por `comandaId`.
+      operationId: upm_aos_comanda_put
+      parameters:
+        - $ref: '#/components/parameters/ifMatchParam'
+      requestBody:
+        $ref: '#/components/requestBodies/comandaRB'
+      responses:
+        '200':
+          description: '`OK`: la comanda ha sido modificada'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comanda'
+        '404':
+          $ref: '#/components/responses/Response_404'
+        '412':
+          $ref: '#/components/responses/Response_412'
+
+  /factura:
+    post:
+      tags: [ '🧾 Factura' ]
+      summary: Genera la factura de un usuario
+      description: Genera la factura de un usuario previamente identificado.
+      operationId: upm_aos_factura_post
+      requestBody:
+        $ref: '#/components/requestBodies/facturaRB'
+      responses:
+        '201':
+          description: Factura
+          headers:
+            Location:
+              $ref: '#/components/headers/Location'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Factura'
+        '404':
+          $ref: '#/components/responses/Response_404'
+
+#
+# Definición de Componentes
+#
+components:
+
+  schemas:
+    Comanda:
+      type: object
+      description: Comanda realizada
+      properties:
+        id:
+          description: Id Comanda
+          type: integer
+          format: int64
+        userId:
+          description: user Id
+          type: integer
+          format: int64
+        ref:
+          description: Ref. del artículo solicitado
+          type: integer
+          format: int64
+        unidades:
+          description: Número de unidades de la referencia
+          type: integer
+          format: int64
+      example:
+        id: 2021
+        userId: 34
+        ref: 1909
+        unidades: 2
+    Factura:
+      type: object
+      description: Conjunto de comandas de un usuario
+      properties:
+        id:
+          description: Id Factura
+          type: integer
+          format: int64
+        userId:
+          description: user Id
+          type: integer
+          format: int64
+        importe:
+          description: importe total
+          type: number
+      example:
+        id: 775929
+        userId: 34
+        importe: 27.54
+    # Message:
+    #   type: object
+    #   description: HTTP response message
+    #   properties:
+    #     code:
+    #       description: Response code
+    #       type: integer
+    #       format: int64
+    #     message:
+    #       description: Response message
+    #       type: string
+    HTTP_Problem:
+      type: object
+      externalDocs:
+        url: https://tools.ietf.org/html/rfc7807
+      description: Problem Details for HTTP APIs
+      properties:
+        type:
+          type: string
+          format: uri
+          description: A URI reference [RFC3986] that identifies the problem type
+        title:
+          type: string
+          description: short human-readable summary of the problem type
+        status:
+          type: number
+          description: HTTP status code
+        detail:
+          type: string
+          description: human-readable explanation specific to this occurrence of the problem
+        instance:
+          type: string
+          format: uri
+          description: "A URI reference that identifies the specific
+            occurrence of the problem.  It may or may not yield further
+            information if dereferenced"
+
+  headers:
+    ETag:
+      description: Entity Tag (identificador único proporcionado para validación de caché)
+      schema:
+        type: string
+        pattern: "[0-9a-f]*"
+        # https://github.com/marak/Faker.js#api-methods
+        x-faker: random.uuid
+        example:
+          33a64df551425fcc
+    Location:
+      description: '`URI` del nuevo recurso'
+      schema:
+        type: string
+        format: url
+        x-faker: internet.url
+        example:
+          /api/v1/comanda/1936
+    Allow:
+      description: Lista de métodos HTTP soportados
+      schema:
+        type: string
+      example:
+        GET,DELETE,PUT,OPTIONS
+
+  parameters:
+    comandaId:
+      name: comandaId
+      in: path
+      description: ID de la comanda
+      required: true
+      schema:
+        type: integer
+        pattern: ^\d+$
+    ifMatchParam:
+      name: If-Match
+      in: header
+      description: ETag del recurso que se desea modificar
+      required: true
+      schema:
+        type: string
+        pattern: "[0-9a-f]*"
+
+  requestBodies:
+    comandaRB:
+      description: '`Comanda` data'
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - ref
+              - unidades
+            properties:
+              # userId:
+              #   description: user Id
+              #   type: integer
+              #   format: int64
+              ref:
+                description: Ref. del artículo solicitado
+                type: integer
+                format: int64
+              unidades:
+                description: "número de unidades de la referencia"
+                type: integer
+                format: int64
+            example:
+              # userId: 2030
+              ref: 33
+              unidades: 12
+    facturaRB:
+      description: '`Factura` data'
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId:
+                description: user Id
+                type: integer
+                format: int64
+            example:
+              userId: 34
+
+  responses:
+    Response_404:
+      description: '`NOT FOUND`: recurso no disponible'
+      content:
+        # application/json:
+        #   schema:
+        #     $ref: '#/components/schemas/Message'
+        #   examples:
+        #     response-404:
+        #       $ref: '#/components/examples/response-404'
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-404:
+              $ref: '#/components/examples/response-http-404'
+    Response_412:
+      description: '`PRECONDITION FAILED`: no se cumple alguna condición previa'
+      content:
+        # application/json:
+        #   schema:
+        #     $ref: '#/components/schemas/Message'
+        #   examples:
+        #     response-412:
+        #       $ref: '#/components/examples/response-412'
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-412:
+              $ref: '#/components/examples/response-http-412'
+    Response_422:
+      description: '`UNPROCESSABLE ENTITY`: falta la referencia o las unidades'
+      content:
+        # application/json:
+        #   schema:
+        #     $ref: '#/components/schemas/Message'
+        #   examples:
+        #     response-422:
+        #       $ref: '#/components/examples/response-422'
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-422:
+              $ref: '#/components/examples/response-http-422'
+
+  examples:
+    # response-404:
+    #   value:
+    #     code: 404
+    #     message: "NOT FOUND: Recurso no disponible"
+    # response-412:
+    #   value:
+    #     code: 412
+    #     message: 'PRECONDITION FAILED: no se cumple alguna condición previa'
+    # response-422:
+    #   value:
+    #     code: 422
+    #     message: 'UNPROCESSABLE ENTITY: falta la referencia o las unidades'
+    comandas:
+      value:
+        - id: 2021
+          userId: 34
+          ref: 1909
+          unidades: 2
+        - id: 2222
+          userId: 22
+          ref: 22222222
+          unidades: 2
+    response-http-404:
+      value:
+        type: https://httpstatuses.com/404
+        title: NOT FOUND
+        status: 404
+        detail: El recurso solicitado no está disponible...
+        instance: about:blank
+    response-http-412:
+      value:
+        type: https://httpstatuses.com/412
+        title: PRECONDITION FAILED
+        status: 412
+        detail: No se cumple alguna condición previa...
+        instance: about:blank
+    response-http-422:
+      value:
+        type: https://httpstatuses.com/422
+        title: UNPROCESSABLE ENTITY
+        status: 422
+        detail: Falta la referencia o las unidades...
+        instance: about:blank

@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+    proxy:
+        image: caddy
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile
+        ports:
+            - 80:80
+        depends_on:
+            - backend
+    backend:
+        image: stoplight/prism:4
+        container_name: comandas_mock
+        command: mock --cors -h 0.0.0.0 "/aos/comandas.yaml"
+        ports:
+          - 4010:4010
+        volumes:
+            - ./openapi:/aos:ro
+    frontend:
+        image: swaggerapi/swagger-ui
+        container_name: comandas_ui
+        ports:
+            - 8000:8080
+        environment:
+            SWAGGER_JSON: /aos/comandas.yaml
+        volumes:
+            - ./openapi:/aos:ro
