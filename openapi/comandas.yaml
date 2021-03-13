@@ -1,7 +1,7 @@
 openapi: "3.0.3"
 info:
   title: "🍽️API Comanda: Ejemplo de especificación"
-  version: "0.0.6"
+  version: "1.0.0"
   description: '[UPM] AOS: API para la gestión de Comandas'
   license:
     name: MIT
@@ -189,49 +189,11 @@ components:
 
   schemas:
     Comanda:
-      type: object
-      description: Comanda realizada
-      properties:
-        id:
-          description: Id Comanda
-          type: integer
-          format: int64
-        userId:
-          description: user Id
-          type: integer
-          format: int64
-        ref:
-          description: Ref. del artículo solicitado
-          type: integer
-          format: int64
-        unidades:
-          description: Número de unidades de la referencia
-          type: integer
-          format: int64
-      example:
-        id: 2021
-        userId: 34
-        ref: 1909
-        unidades: 2
+      $ref: './schemas/Comanda.yaml#/Comanda'
     Factura:
-      type: object
-      description: Conjunto de comandas de un usuario
-      properties:
-        id:
-          description: Id Factura
-          type: integer
-          format: int64
-        userId:
-          description: user Id
-          type: integer
-          format: int64
-        importe:
-          description: importe total
-          type: number
-      example:
-        id: 775929
-        userId: 34
-        importe: 27.54
+      $ref: './schemas/Factura.yaml#/Factura'
+    HTTP_Problem:
+      $ref: './schemas/HTTP_Problem.yaml#/HTTP_Problem'
     # Message:
     #   type: object
     #   description: HTTP response message
@@ -243,31 +205,6 @@ components:
     #     message:
     #       description: Response message
     #       type: string
-    HTTP_Problem:
-      type: object
-      externalDocs:
-        url: https://tools.ietf.org/html/rfc7807
-      description: Problem Details for HTTP APIs
-      properties:
-        type:
-          type: string
-          format: uri
-          description: A URI reference [RFC3986] that identifies the problem type
-        title:
-          type: string
-          description: short human-readable summary of the problem type
-        status:
-          type: number
-          description: HTTP status code
-        detail:
-          type: string
-          description: human-readable explanation specific to this occurrence of the problem
-        instance:
-          type: string
-          format: uri
-          description: "A URI reference that identifies the specific
-            occurrence of the problem.  It may or may not yield further
-            information if dereferenced"
 
   headers:
     ETag:

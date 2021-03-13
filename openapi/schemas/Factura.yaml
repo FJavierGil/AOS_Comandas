@@ -1,0 +1,19 @@
+Factura:
+    type: object
+    description: Conjunto de comandas de un usuario
+    properties:
+        id:
+            description: Id Factura
+            type: integer
+            format: int64
+        userId:
+            description: user Id
+            type: integer
+            format: int64
+        importe:
+            description: importe total
+            type: number
+    example:
+        id: 775929
+        userId: 34
+        importe: 27.54

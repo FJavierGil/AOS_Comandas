@@ -1,0 +1,25 @@
+HTTP_Problem:
+    type: object
+    externalDocs:
+        url: https://tools.ietf.org/html/rfc7807
+    description: Problem Details for HTTP APIs
+    properties:
+        type:
+            type: string
+            format: uri
+            description: A URI reference [RFC3986] that identifies the problem type
+        title:
+            type: string
+            description: short human-readable summary of the problem type
+        status:
+            type: number
+            description: HTTP status code
+        detail:
+            type: string
+            description: human-readable explanation specific to this occurrence of the problem
+        instance:
+            type: string
+            format: uri
+            description: "A URI reference that identifies the specific
+            occurrence of the problem.  It may or may not yield further
+            information if dereferenced"

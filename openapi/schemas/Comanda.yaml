@@ -1,0 +1,25 @@
+Comanda:
+    type: object
+    description: Comanda realizada
+    properties:
+        id:
+            description: Id Comanda
+            type: integer
+            format: int64
+        userId:
+            description: user Id
+            type: integer
+            format: int64
+        ref:
+            description: Ref. del artículo solicitado
+            type: integer
+            format: int64
+        unidades:
+            description: Número de unidades de la referencia
+            type: integer
+            format: int64
+    example:
+        id: 2021
+        userId: 34
+        ref: 1909
+        unidades: 2
