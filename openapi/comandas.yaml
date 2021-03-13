@@ -359,9 +359,9 @@ components:
           ref: 1909
           unidades: 2
         - id: 2222
-          userId: 22
+          userId: 34
           ref: 22222222
-          unidades: 2
+          unidades: 4
     response-http-404:
       value:
         type: https://httpstatuses.com/404

@@ -4,10 +4,12 @@ Factura:
     properties:
         id:
             description: Id Factura
+            readOnly: true
             type: integer
             format: int64
         userId:
             description: user Id
+            readOnly: true
             type: integer
             format: int64
         importe:

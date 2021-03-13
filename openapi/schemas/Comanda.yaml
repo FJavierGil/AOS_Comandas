@@ -4,10 +4,12 @@ Comanda:
     properties:
         id:
             description: Id Comanda
+            readOnly: true
             type: integer
             format: int64
         userId:
             description: user Id
+            readOnly: true
             type: integer
             format: int64
         ref:
