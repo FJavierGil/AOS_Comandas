@@ -2,6 +2,7 @@ version: "3"
 services:
     proxy:
         image: caddy
+        container_name: comandas_proxy
         volumes:
             - ./Caddyfile:/etc/caddy/Caddyfile
         ports:

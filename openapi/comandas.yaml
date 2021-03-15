@@ -279,18 +279,18 @@ components:
               unidades: 12
     facturaRB:
       description: '`Factura` data'
-      required: true
+      required: false
       content:
         application/json:
           schema:
             type: object
             properties:
-              userId:
-                description: user Id
-                type: integer
-                format: int64
-            example:
-              userId: 34
+              # userId:
+              #   description: user Id
+              #   type: integer
+              #   format: int64
+            # example:
+              # userId: 34
 
   responses:
     Response_404:
