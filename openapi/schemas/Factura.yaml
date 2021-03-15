@@ -6,14 +6,15 @@ Factura:
             description: Id Factura
             readOnly: true
             type: integer
-            format: int64
+            format: int32
         userId:
             description: user Id
             readOnly: true
             type: integer
-            format: int64
+            format: int32
         importe:
             description: importe total
+            readOnly: true
             type: number
     example:
         id: 775929

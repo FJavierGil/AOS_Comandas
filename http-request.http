@@ -71,3 +71,11 @@ Content-Type: application/json
 OPTIONS http://127.0.0.1:80/api/v1/comanda/5
 Content-Type: application/json
 
+###
+# POST 201 (dinámico)
+POST http://127.0.0.1:80/api/v1/factura
+Prefer: dynamic=true
+Content-Type: application/json
+
+{}
+

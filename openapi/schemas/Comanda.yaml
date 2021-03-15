@@ -6,22 +6,43 @@ Comanda:
             description: Id Comanda
             readOnly: true
             type: integer
-            format: int64
+            format: int32
         userId:
             description: user Id
             readOnly: true
             type: integer
-            format: int64
+            format: int32
         ref:
             description: Ref. del artículo solicitado
             type: integer
-            format: int64
+            format: int32
         unidades:
             description: Número de unidades de la referencia
             type: integer
-            format: int64
+            format: int32
+            minimum: 1
+        links:
+            description: Enlaces de relación
+            type: object
+            properties:
+                parent:
+                    $ref: './Link.yaml#/Link'
+                self:
+                    $ref: './Link.yaml#/Link'
+                factura:
+                    $ref: './Link.yaml#/Link'
     example:
         id: 2021
         userId: 34
         ref: 1909
         unidades: 2
+        links:
+            parent:
+                href: /api/v1/comanda
+                rel: listaComandas
+            self:
+                href: /api/v1/comanda/2021
+                rel: modificar cancelar
+            factura:
+                href: /api/v1/factura
+                rel: pedirFactura
