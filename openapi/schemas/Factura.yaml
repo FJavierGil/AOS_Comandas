@@ -16,7 +16,19 @@ Factura:
             description: importe total
             readOnly: true
             type: number
+        links:
+            description: Listado de comandas
+            type: array
+            items:
+                $ref: './Link.yaml#/Link'
     example:
         id: 775929
         userId: 34
         importe: 27.54
+        links:
+            - href: /api/v1/comanda/1111
+              rel: comanda
+            - href: /api/v1/comanda/1112
+              rel: comanda
+            - href: /api/v1/comanda/1114
+              rel: comanda
