@@ -181,6 +181,26 @@ paths:
                 $ref: '#/components/schemas/Factura'
         '404':
           $ref: '#/components/responses/Response_404'
+  /factura/{facturaId}:
+    parameters:
+      - $ref: '#/components/parameters/facturaId'
+    get:
+      tags: [ '🧾 Factura' ]
+      summary: Obtiene una factura
+      description: Obtiene una factura identificada por su facturaID.
+      operationId: upm_aos_factura_get
+      responses:
+        '200':
+          description: Factura
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Factura'
+        '404':
+          $ref: '#/components/responses/Response_404'
 
 #
 # Definición de Componentes
@@ -225,6 +245,14 @@ components:
       name: comandaId
       in: path
       description: ID de la comanda
+      required: true
+      schema:
+        type: integer
+        pattern: ^\d+$
+    facturaId:
+      name: facturaId
+      in: path
+      description: ID de la factura
       required: true
       schema:
         type: integer
